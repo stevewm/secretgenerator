@@ -31,7 +31,7 @@ jobs:
                 BUILDX_NO_DEFAULT_ATTESTATIONS: 1
               with:
                 push: ${{ github.event_name != 'pull_request' }}
-                tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:0.0.1
+                tags: ghcr.io/${{ github.repository }}:0.0.1
                 cache-from: type=gha
                 cache-to: type=gha,mode=max
                 platforms: linux/amd64,linux/arm64
