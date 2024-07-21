@@ -6,8 +6,8 @@ import pkgutil
 import yaml
 from fastapi import FastAPI
 
-from secretgenerator import generators
-from secretgenerator.api import api
+from app import generators
+from app.api import api
 
 # Generator plugin architecture based on larose/utt
 # https://mathieularose.com/plugin-architecture-in-python
