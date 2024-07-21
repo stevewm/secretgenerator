@@ -33,11 +33,12 @@ def load_config():
     for file in glob.glob(config_path):
         print(f'Loading config from {file}')
         try:
-            config_item = yaml.safe_load(open(file)) 
+            config_item = yaml.safe_load(open(file))
             config[config_item['name']] = config_item['secrets']
         except yaml.YAMLError as e:
            print(f'Failed to load config file {file}: {e}')
     return config
+
 
 config = load_config()
 load_generators()
@@ -45,7 +46,7 @@ load_generators()
 app = FastAPI()
 
 @app.get('/{app_name}')
-def generate_secret(app_name: str):
+def generate_secrets(app_name: str):
   generated_secrets = {}
   for secret_request in config[app_name]:
     try:
