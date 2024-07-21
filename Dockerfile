@@ -1,4 +1,4 @@
-FROM python:3.13-rc-alpine3.20
+FROM python:3.13-rc-slim
 
 WORKDIR /usr/src/app
 EXPOSE 8000
