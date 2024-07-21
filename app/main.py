@@ -1,4 +1,5 @@
 import glob
+from http.client import HTTPException
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import importlib
 import os
@@ -47,6 +48,9 @@ app = FastAPI()
 
 @app.get('/{app_name}')
 def generate_secrets(app_name: str):
+  if app_name not in config:
+    raise HTTPException(status_code=404, detail=f'Config for {app_name} not found')
+
   generated_secrets = {}
   for secret_request in config[app_name]:
     try:
