@@ -1,11 +1,16 @@
 import random
 import string
-from typing import Any, Dict
+from typing import Dict
 from ..api import api
 
-class AlphaNumeric():
-    def generate(parameters: Dict[str, Any]) -> str:
-        return ''.join(random.choices(string.ascii_letters + string.digits, k=parameters.get('length', 32)))
+
+class AlphaNumeric:
+    def generate(secret_name: str, length: int = 32) -> Dict[str, str]:
+        return {
+            secret_name: "".join(
+                random.choices(string.ascii_letters + string.digits, k=length)
+            )
+        }
 
 
 api.register_generator(AlphaNumeric)

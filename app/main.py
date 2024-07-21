@@ -1,6 +1,5 @@
 import glob
-from http.client import HTTPException
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from fastapi import FastAPI, HTTPException
 import importlib
 import os
 import pkgutil
@@ -53,8 +52,10 @@ def generate_secrets(app_name: str):
 
   generated_secrets = {}
   for secret_request in config[app_name]:
+    if 'parameters' not in secret_request:
+      secret_request['parameters'] = {}
     try:
-      generated_secrets[secret_request['name']] = api.generators[secret_request['type']].generate(secret_request['parameters'])
+      generated_secrets = generated_secrets | api.get_generator(secret_request['type']).generate(secret_request['name'], **secret_request['parameters'])
     except KeyError:
        print(f'Generator {secret_request['type']} not found, skipping secret {secret_request['name']}')
   return generated_secrets
