@@ -29,4 +29,13 @@ Will create an endpoint at `/sabnzbd` that will return a JSON object with the ge
 }
 ```
 
-See the [examples](./examples) directory for more examples, including combining with External Secrets.
+## Examples
+
+See the [examples](./examples) directory for more examples.
+
+## TODO
+
+- Tests
+- CI
+- More generators
+- Proper releases
