@@ -1,4 +1,4 @@
-# Webhook Secret Generator
+# Secret Generator
 
 This is a rough proof-of-concept tool designed to generate secrets, in conjunction with [External Secrets](https://external-secrets.io), for applications running in a Kubernetes cluster. I created this to alleviate the hassle of generating secrets and storing them in an external store.
 
@@ -28,6 +28,8 @@ Will create an endpoint at `/sabnzbd` that will return a JSON object with the ge
   "nzb_key": "XY17X7FKo3BSfURw2v2dTdwf6oq1wQQc"
 }
 ```
+
+Each invocation of the endpoint will generate new secrets.
 
 ## Examples
 
