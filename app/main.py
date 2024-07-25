@@ -4,10 +4,10 @@ import importlib
 import os
 import pkgutil
 import yaml
-from fastapi import FastAPI
 
 from app import generators
-from app.api import api
+import app.api as api
+from app.config.file import FileConfigProvider
 
 # Generator plugin architecture based on larose/utt
 # https://mathieularose.com/plugin-architecture-in-python
@@ -26,27 +26,14 @@ def load_generators():
     for _, name, _ in iter_namespace(generators):
         importlib.import_module(name)
 
-
-def load_config():
-    config_path = os.path.join(os.getenv('CONFIG_PATH', '/config'), '*.yaml')
-    config = {}
-    for file in glob.glob(config_path):
-        print(f'Loading config from {file}')
-        try:
-            config_item = yaml.safe_load(open(file))
-            config[config_item['name']] = config_item['secrets']
-        except yaml.YAMLError as e:
-           print(f'Failed to load config file {file}: {e}')
-    return config
-
-
-config = load_config()
+config_provider = FileConfigProvider(os.getenv('CONFIG_PATH', '/config'))
 load_generators()
 
 app = FastAPI()
 
 @app.get('/{app_name}')
 def generate_secrets(app_name: str):
+  config = config_provider.get_config()
   if app_name not in config:
     raise HTTPException(status_code=404, detail=f'Config for {app_name} not found')
 

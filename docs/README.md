@@ -1,5 +1,7 @@
 # Secret Generator
 
+Warning: Under active development and probably broken in some way I haven't noticed.
+
 This is a rough proof-of-concept tool designed to generate secrets, in conjunction with [External Secrets](https://external-secrets.io), for applications running in a Kubernetes cluster. I created this to alleviate the hassle of generating secrets and storing them in an external store.
 
 ## Usage
