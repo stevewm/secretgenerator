@@ -13,7 +13,9 @@ class BasicAuth:
             username - the username in the basic auth string. Default: 'admin'.
             length - the length of the password. Must be greater than 0.
         """
-        password = api.generators['AlphaNumeric'].generate(username, length)[username]
+        password = api.generators['AlphaNumeric'].generate('password', length)[
+            'password'
+        ]
         return {secret_name: f'{username}:{password}'}
 
 
