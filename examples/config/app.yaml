@@ -1,20 +1,14 @@
 # Example config file
 # Contains maximal configuration for each generator.
-# All parameters have defaults and so
+# All parameters have defaults and are optional.
 ---
-name: app
+name: app # Determines the endpoint (e.g. /app)
 secrets:
   # AlphaNumeric Generator
   - name: api_key
     type: AlphaNumeric
     parameters:
       length: 32 # Length of the generated string
-  # Example:
-
-  # UUID Generator
-  - name: uuid
-    type: UUID
-    # No parameters needed
 
   # BasicAuth Generator
   - name: login
@@ -32,3 +26,8 @@ secrets:
       hash_name: sha512 # Hashing algorithm (sha256, sha512, etc.)
       rounds: 310000 # Number of rounds
       salt_length: 16 # Length of the string used for the salt
+
+  # UUID Generator
+  - name: uuid
+    type: UUID
+    # No parameters needed
