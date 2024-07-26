@@ -1,8 +1,0 @@
-# Example config file
----
-name: sabnzbd
-secrets:
-  - name: api_key
-    type: AlphaNumeric
-  - name: nzb_key
-    type: AlphaNumeric

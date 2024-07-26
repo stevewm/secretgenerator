@@ -4,6 +4,8 @@ repos:
   rev: 24.4.2
   hooks:
   - id: black
+    args: [--skip-string-normalization] # single quote supremacy
+
 - repo: https://github.com/pycqa/flake8
   rev: 7.1.0
   hooks:

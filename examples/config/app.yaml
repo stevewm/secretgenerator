@@ -1,0 +1,34 @@
+# Example config file
+# Contains maximal configuration for each generator.
+# All parameters have defaults and so
+---
+name: app
+secrets:
+  # AlphaNumeric Generator
+  - name: api_key
+    type: AlphaNumeric
+    parameters:
+      length: 32 # Length of the generated string
+  # Example:
+
+  # UUID Generator
+  - name: uuid
+    type: UUID
+    # No parameters needed
+
+  # BasicAuth Generator
+  - name: login
+    type: BasicAuth
+    parameters:
+      username: steve # The username
+      length: 32 # Length of the generated password
+
+  # PBKD2 Generator
+  - name: client_secret
+    type: PBKDF2
+    parameters:
+      digest_name: client_secret_digest # Name of the key containing the digest
+      length: 32 # Length of the string used for the hash
+      hash_name: sha512 # Hashing algorithm (sha256, sha512, etc.)
+      rounds: 310000 # Number of rounds
+      salt_length: 16 # Length of the string used for the salt
