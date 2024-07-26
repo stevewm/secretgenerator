@@ -22,7 +22,7 @@ secrets:
       length: 32
 ```
 
-Will create an endpoint at `/sabnzbd` that will return a JSON object with the generated secrets:
+Will create an endpoint at `/sabnzbd` that returns a JSON object with the generated secrets:
 
 ```json
 {
@@ -33,13 +33,25 @@ Will create an endpoint at `/sabnzbd` that will return a JSON object with the ge
 
 Each invocation of the endpoint will generate new secrets.
 
+## Generators
+
+At the moment the following generators are implemented:
+
+- `AlphaNumeric`: Generates a random alphanumeric string.
+- `Base64`: Generates a random base64 string.
+- `BasicAuth`: Generates a random username and password in the form of `username:password`.
+- `PBKDF2`: Generates a random PBKDF2 hash digest, intended for use with Authelia.
+
+Each generator takes a set of parameters specific to it. For generators where setting the length is possible the default is 32 characters.
+
 ## Examples
 
-See the [examples](./examples) directory for more examples.
+See the [examples](./examples) directory.
 
 ## TODO
 
-- Tests
-- CI
+- Better tests
+- Better CI
 - More generators
 - Proper releases
+- Configuration schema
