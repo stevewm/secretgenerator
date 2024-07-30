@@ -40,6 +40,7 @@ At the moment the following generators are implemented:
 - `AlphaNumeric`: Generates a random alphanumeric string.
 - `Base64`: Generates a random base64 string.
 - `BasicAuth`: Generates a random username and password in the form of `username:password`.
+- `BCrypt`: Generates a random BCrypt hash digest in hex format.
 - `PBKDF2`: Generates a random PBKDF2 hash digest, intended for use with Authelia.
 
 Each generator takes a set of parameters specific to it. For generators where setting the length is possible the default is 32 characters.
