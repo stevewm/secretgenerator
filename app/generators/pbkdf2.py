@@ -1,5 +1,4 @@
-import binascii
-import hashlib
+from passlib.hash import pbkdf2_sha512
 from typing import Dict
 from ..api import api
 
@@ -9,47 +8,38 @@ class PBKDF2:
         secret_name,
         digest_name: str = None,
         length: int = 32,
-        hash_name: str = 'sha512',
-        rounds: int = 310000,
+        iterations: int = 310000,
         salt_length: int = 16,
     ) -> Dict[str, str]:
         """
-        Generate a random PBKDF2 hash digest.
+        Generate a random SHA-512 PBKDF2 hash digest.
         Returns a dictionary containing the secret and digest.
         Args:
             secret_name - the name of the secret.
             digest_name - the name of the digest. Default: {secret_name}_digest.
-            length - the length of the string encoded to base64. Must be greater than 0.
-            hash_name - the name of the hash algorithm to use. Default: 'sha512'.
-            rounds - the number of iterations to use. Default: 310000.
+            length - the length of the random password string. Must be greater than 0.
+            iterations - the number of iterations to use. Default: 310000.
             salt_length - the length of the salt to generate. Default: 16.
         """
         if digest_name is None:
             digest_name = f'{secret_name}_digest'
 
-        # Generate secret and salt
         secret_string = (
             api.get_generator('AlphaNumeric')
             .generate(secret_name, length)
             .get(secret_name)
-            .encode('utf-8')
+            .encode()
         )
         salt = (
             api.get_generator('AlphaNumeric')
             .generate('salt', salt_length)
             .get('salt')
-            .encode('utf-8')
+            .encode()
         )
 
-        # Hash secret
-        secret_hash = hashlib.pbkdf2_hmac(hash_name, secret_string, salt, rounds)
-
-        salt_hex = binascii.hexlify(salt).decode('utf-8')
-        password_hash = binascii.hexlify(secret_hash).decode('utf-8')
-
-        # $pbkdf2$iterations$saltinhexstring$hash64bytesinhexstring
-        secret_hash = f'$pbkdf2-${hash_name}${rounds}${salt_hex}${password_hash}'
-
+        secret_hash = pbkdf2_sha512.using(iterations=iterations, salt=salt).hash(
+            secret_string
+        )
         return {secret_name: secret_string, digest_name: secret_hash}
 
 
