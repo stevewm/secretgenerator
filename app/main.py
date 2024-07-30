@@ -18,7 +18,7 @@ def iter_namespace(ns_pkg):
     # the name.
     #
     # Source: https://packaging.python.org/guides/creating-and-discovering-plugins/
-    return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + '.')
+    return pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + ".")
 
 
 def load_generators():
@@ -26,29 +26,30 @@ def load_generators():
         importlib.import_module(name)
 
 
-config_provider = FileConfigProvider(os.getenv('CONFIG_PATH', '/config'))
+config_provider = FileConfigProvider(os.getenv("CONFIG_PATH", "/config"))
 load_generators()
 
 app = FastAPI()
 
 
-@app.get('/{app_name}')
+@app.get("/{app_name}")
 def generate_secrets(app_name: str):
     config = config_provider.get_config()  # poor man's hot reload
     if app_name not in config:
-        raise HTTPException(status_code=404, detail=f'Config for {app_name} not found')
+        raise HTTPException(status_code=404, detail=f"Config for {app_name} not found")
 
     generated_secrets = {}
     for secret_request in config[app_name]:
-        if 'parameters' not in secret_request:
-            secret_request['parameters'] = {}
+        secret_request["parameters"] = (
+            secret_request["parameters"] if secret_request.get("parameters") else {}
+        )
         try:
             generated_secrets = generated_secrets | api.get_generator(
-                secret_request['type']
-            ).generate(secret_request['name'], **secret_request['parameters'])
+                secret_request["type"]
+            ).generate(secret_request["name"], **secret_request["parameters"])
         except KeyError:
             print(
                 f"Generator {secret_request['type']} not found, \
-                  skipping {secret_request['name']}"
+                  skipping secret {secret_request['name']}"
             )
     return generated_secrets
