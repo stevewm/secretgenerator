@@ -37,7 +37,7 @@ class PBKDF2:
             .encode()
         )
 
-        secret_hash = pbkdf2_sha512.using(iterations=iterations, salt=salt).hash(
+        secret_hash = pbkdf2_sha512.using(rounds=iterations, salt=salt).hash(
             secret_string
         )
         return {secret_name: secret_string, digest_name: secret_hash}
