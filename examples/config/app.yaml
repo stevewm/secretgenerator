@@ -17,6 +17,12 @@ secrets:
       username: steve # The username
       length: 32 # Length of the generated password
 
+  # BCrypt Generator
+  - name: password
+    type: BCrypt
+    parameters:
+      length: 16 # Length of the string used for the hash
+
   # PBKD2 Generator
   - name: client_secret
     type: PBKDF2
